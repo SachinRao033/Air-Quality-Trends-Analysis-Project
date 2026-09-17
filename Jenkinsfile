@@ -54,7 +54,7 @@ EOF
             }
         }
 
-        stage('Stop Containers & Cleanup') {
+        stage('Stop Containers & Cleanup the container, images, volumes, networks') {
             steps {
                 sh '''
                 cd "$PROJECT_DIR"
