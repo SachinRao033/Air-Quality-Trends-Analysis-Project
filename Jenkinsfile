@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_DIR = "/home/ubuntu/Air-Quality-Trends-Analysis-Project"        
-	EC2_HOST = credentials('EC2_HOST')
-	EC2_USERNAME = credentials('EC2_USERNAME')
+        PROJECT_DIR = "/home/ubuntu/Air-Quality-Trends-Analysis-Project"
+        EC2_HOST = credentials('EC2_HOST')
+        EC2_USERNAME = credentials('EC2_USERNAME')
     }
 
     stages {
@@ -26,6 +26,8 @@ pipeline {
                     "$WORKSPACE"/ "$PROJECT_DIR"/
 
                 sudo chown -R jenkins:jenkins "$PROJECT_DIR"
+
+                echo "Project copied successfully"
                 ls -la "$PROJECT_DIR"
                 '''
             }
@@ -43,7 +45,7 @@ MYSQL_DB=airq
 MYSQL_USER=root
 MYSQL_PASSWORD=root123
 JWT_SECRET=sachin-secret
-ALLOWED_ORIGINS=http://$EC2_IP:3000
+ALLOWED_ORIGINS=http://$EC2_HOST:3000
 EOF
 
                 echo "Backend .env created successfully"
@@ -58,7 +60,6 @@ EOF
                 cd "$PROJECT_DIR"
 
                 docker compose down || true
-
                 docker system prune -af --volumes
                 '''
             }
@@ -97,7 +98,7 @@ EOF
 
                 echo "===== Running Containers ====="
                 docker ps
-		'''
+                '''
             }
         }
     }
