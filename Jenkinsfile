@@ -51,7 +51,7 @@ EOF
             }
         }
 
-        stage('Stop Containers') {
+        stage('Stop Containers & Delete') {
             steps {
                 sh '''
                 cd "$PROJECT_DIR"
