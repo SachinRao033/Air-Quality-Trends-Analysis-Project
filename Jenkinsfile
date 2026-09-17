@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_DIR = "/home/ubuntu/Air-Quality-Trends-Analysis-Project"
-        EC2_IP = "15.207.109.45"
+        PROJECT_DIR = "/home/ubuntu/Air-Quality-Trends-Analysis-Project"        
+	EC2_HOST = credentials('EC2_HOST')
+	EC2_USERNAME = credentials('EC2_USERNAME')
     }
 
     stages {
@@ -51,7 +52,7 @@ EOF
             }
         }
 
-        stage('Stop Containers & Delete') {
+        stage('Stop Containers & Cleanup') {
             steps {
                 sh '''
                 cd "$PROJECT_DIR"
@@ -96,7 +97,7 @@ EOF
 
                 echo "===== Running Containers ====="
                 docker ps
-
+		'''
             }
         }
     }
